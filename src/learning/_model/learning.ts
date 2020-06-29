@@ -19,7 +19,7 @@ export const LearningSchema = new mongoose.Schema({
     }
 });
 
-export interface Learning {
+export interface Learning extends mongoose.Document {
     imageUrl: string;
     courseName: string;
     description: string;

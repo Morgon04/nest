@@ -8,7 +8,10 @@ import { LearningController } from './learning/learning.controller';
 
 // Import Learning Schema Module
 import { LearningSchema } from './_model/learning';
+
+// Import Service
 import { LearingService } from './_service/learing.service';
+import { UtilityService } from 'src/utility.service';
 
 @Module({
     imports: [
@@ -20,7 +23,8 @@ import { LearingService } from './_service/learing.service';
         LearningController
     ],
     providers: [
-        LearingService
+        LearingService,
+        UtilityService
     ]
 })
 export class LearningModule { }
