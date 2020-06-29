@@ -37,20 +37,11 @@ export class LearingService {
         return learning;
     }
 
-    async updateLearning({ imageUrl, courseName, description, url }, id: number): Promise<any> {
+    async updateLearning(learning: Learning, id: number): Promise<any> {
 
         const updatedProduct = await this.getLearningsById(id);
-        if (imageUrl) {
-            updatedProduct.imageUrl = imageUrl;
-        }
-        if (courseName) {
-            updatedProduct.courseName = courseName;
-        }
-        if (description) {
-            updatedProduct.description = description;
-        }
-        if (url) {
-            updatedProduct.url = url;
+        for (const [key, value] of Object.entries(learning)) {
+            updatedProduct[key] = value;
         }
         return updatedProduct.save();
     }
