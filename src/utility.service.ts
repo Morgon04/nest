@@ -19,7 +19,7 @@ export class UtilityService {
     });
 
     getResponseCode(response: any): number {
-        return response || (Array.isArray(response) && response.length > 0) ? 200 : 204;
+        return ((response && Object.keys(response).length) || (Array.isArray(response) && response.length)) ? 200 : 204;
     }
 
     getDelResponseCode(response: any): number {

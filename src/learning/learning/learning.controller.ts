@@ -65,8 +65,31 @@ export class LearningController {
     async deleteLearning(@Query('id') id: number) {
         try {
             const deleted = await this.learningService.deleteLearning(id);
-            const { code, message } = this.utilityService.getResCodeAndMessage(deleted, 'learnDelete');
-            return { code, message };
+            return this.utilityService.getResCodeAndMessage(deleted, 'learnDelete');
+        } catch (error) {
+            console.log(error);
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
+    @Get('get-by-advance')
+    async getLearningAdvance(@Query('searchValue') searchValue: string) {
+        try {
+            const learning = await this.learningService.getLearningAdvanceSearch(searchValue);
+            const { code, message } = this.utilityService.getResCodeAndMessage(learning, 'learnFetch');
+            return { code, message, responseContent: learning };
+        } catch (error) {
+            console.log(error);
+            throw new InternalServerErrorException(error.message);
+        }
+    }
+
+    @Get('get-by-coursename')
+    async getLearningByCourseName(@Query('searchValue') searchValue: string) {
+        try {
+            const learning = await this.learningService.getLearningByCourseName(searchValue);
+            const { code, message } = this.utilityService.getResCodeAndMessage(learning, 'learnFetch');
+            return { code, message, responseContent: learning };
         } catch (error) {
             console.log(error);
             throw new InternalServerErrorException(error.message);

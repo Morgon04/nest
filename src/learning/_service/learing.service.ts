@@ -16,9 +16,7 @@ export class LearingService {
 
     constructor(
         @InjectModel('Learning') private readonly learningModel: Model<Learning>
-    ) {
-
-    }
+    ) { }
 
     async insertLearning(learn: Learning): Promise<any> {
         const newLearning = new this.learningModel(learn);
@@ -30,7 +28,7 @@ export class LearingService {
     }
 
     async getLearningsById(id: number): Promise<Learning> {
-        const learning = this.learningModel.findById(id);
+        const learning = this.learningModel.findById(id).exec();
         if (!learning) {
             throw new NotFoundException('Could not find learning')
         }
@@ -48,5 +46,19 @@ export class LearingService {
 
     async deleteLearning(id: number): Promise<any> {
         return this.learningModel.deleteOne({ _id: id }).exec();
+    }
+
+    async getLearningAdvanceSearch(searchValue: string): Promise<Learning[]> {
+        const regex = { $regex: `${searchValue}`, $options: 'i' };
+        return this.learningModel.find({
+            $or: [
+                { courseName: regex },
+                { description: regex }
+            ]
+        }).exec();
+    }
+
+    async getLearningByCourseName(searchValue: string): Promise<Learning> {
+        return this.learningModel.findOne({ courseName: searchValue }).exec();
     }
 }
